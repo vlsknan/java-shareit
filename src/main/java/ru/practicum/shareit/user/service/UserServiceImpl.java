@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+
     public List<User> getAll() {
         return userRepository.getAll();
     }

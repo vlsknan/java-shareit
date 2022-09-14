@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface UserService {
     List<User> getAll();
+
     User getById(int id);
+
     User save(UserDto user);
+
     User edit(UserDto user, int id);
+
     void delete(int id);
 }
