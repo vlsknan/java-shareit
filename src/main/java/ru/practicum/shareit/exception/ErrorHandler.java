@@ -11,17 +11,17 @@ import javax.validation.ValidationException;
 @ControllerAdvice
 public class ErrorHandler {
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<Response> handleException (ValidationException e){
+    public ResponseEntity<Response> handleException(ValidationException e) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Response> handleException (RuntimeException e){
+    public ResponseEntity<Response> handleException(RuntimeException e) {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Response> handleException (NotFoundException e) {
+    public ResponseEntity<Response> handleException(NotFoundException e) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

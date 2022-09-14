@@ -21,6 +21,7 @@ public class UserRepository {
                 .filter(u -> u.getId() == id)
                 .findAny();
     }
+
     public User save(User user) {
         user.setId(getId());
         users.add(user);
