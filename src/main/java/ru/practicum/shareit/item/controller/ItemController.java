@@ -8,10 +8,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.Create;
 import ru.practicum.shareit.item.Update;
+import ru.practicum.shareit.item.comment.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.dto.ItemDtoInfo;
+import ru.practicum.shareit.item.comment.Comment;
 import ru.practicum.shareit.item.service.ItemService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -26,22 +29,22 @@ public class ItemController {
     private static final String X_SHARER_USER_ID = "X-Sharer-User-Id";
 
     @GetMapping
-    public List<Item> getAll(@RequestHeader(X_SHARER_USER_ID) int userId) {
+    public List<ItemDtoInfo> getAll(@RequestHeader(X_SHARER_USER_ID) int userId) {
         log.info("Вызван метод getAll() в ItemController");
         return itemService.getAll(userId);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getById(@PathVariable int itemId) {
+    public ItemDtoInfo getById(@RequestHeader(X_SHARER_USER_ID) int userId, @PathVariable int itemId) {
         log.info("Вызван метод getById() в ItemController");
-        return itemService.getById(itemId);
+        return itemService.getById(itemId, userId);
     }
 
     @PostMapping
     public ItemDto create(@Validated({Create.class}) @RequestBody ItemDto itemDto,
                           @RequestHeader(X_SHARER_USER_ID) int userId) {
         log.info("Вызван метод save() в ItemController");
-        return itemService.save(itemDto, userId);
+        return itemService.create(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
@@ -59,8 +62,14 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<Item> searchItem(@RequestParam String text, @RequestHeader(X_SHARER_USER_ID) int userId) {
+    public List<ItemDto> searchItem(@RequestParam String text, @RequestHeader(X_SHARER_USER_ID) int userId) {
         log.info("Вызван метод search() в ItemController");
         return itemService.search(text, userId);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@RequestHeader(X_SHARER_USER_ID) int userId, @PathVariable int itemId,
+                                 @Valid @RequestBody CommentDto comment) {
+        return itemService.addComment(userId, itemId, comment);
     }
 }
