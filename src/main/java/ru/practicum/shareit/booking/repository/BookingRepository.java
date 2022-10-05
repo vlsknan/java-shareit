@@ -17,13 +17,9 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findAllByBookerId(int bookerId);
 
     @Query(" select b from Item i, Booking b " +
-            " where i.ownerId = ?1 " +
+            " where b.item.ownerId = ?1 " +
             " order by b.start ")
     List<Booking> findAllByOwnerId(int ownerId);
-
-    @Query("select b from Booking b " +
-            "where b.item.id = ?1")
-    List<Booking> findAllByItemId(int itemId);
 
     @Query("select b from Booking b " +
             "where b.item.id = ?1 " +
@@ -32,8 +28,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "and b.end < current_timestamp " +
             "order by b.end ")
     Optional<Booking> findLastBooking(int itemId, int ownerId);
-
-//    List<Booking> findAllByItem_Owner(int ownerId);
 
     @Query("select b from Booking b " +
             "where b.item.id = ?1 " +
