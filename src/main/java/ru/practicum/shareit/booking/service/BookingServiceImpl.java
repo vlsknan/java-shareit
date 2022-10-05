@@ -49,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingDto save(BookingDtoIn bookingDtoIn, int ownerId) {
         User booker = userRepository.findById(ownerId)
-                        .orElseThrow(() -> new NotFoundException(String.format("Пользователь с id = %s не найден", ownerId)));
+                .orElseThrow(() -> new NotFoundException(String.format("Пользователь с id = %s не найден", ownerId)));
         Item item = itemRepository.findById(bookingDtoIn.getItemId())
                 .orElseThrow(() -> new NotFoundException(String.format("Вещь с id = %s не найдена", bookingDtoIn.getItemId())));
         BookingDto bookingDto = BookingMapper.toBookingDto(bookingDtoIn, item);
@@ -107,13 +107,13 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingDto> getAllByOwnerId(int ownerId, BookingState state) {
         userRepository.findById(ownerId)
                 .orElseThrow(() -> new NotFoundException(String.format("Пользователь с id = %s не найден", ownerId)));
-            Set<Booking> bookings = new HashSet<>(bookingRepository.findAllByOwnerId(ownerId));
-            if (bookings.isEmpty()) {
-                throw new NotFoundException("Бронирований не найдено.");
-            } else {
-                log.info("Получены все бронирования пользователя с id = {} (getAllByOwnerId())", ownerId);
-                return filterByState(bookings, state);
-            }
+        Set<Booking> bookings = new HashSet<>(bookingRepository.findAllByOwnerId(ownerId));
+        if (bookings.isEmpty()) {
+            throw new NotFoundException("Бронирований не найдено.");
+        } else {
+            log.info("Получены все бронирования пользователя с id = {} (getAllByOwnerId())", ownerId);
+            return filterByState(bookings, state);
+        }
     }
 
     private List<BookingDto> filterByState(Set<Booking> bookings, BookingState state) {

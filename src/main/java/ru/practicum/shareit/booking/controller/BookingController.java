@@ -35,7 +35,7 @@ public class BookingController {
                                              @RequestParam(defaultValue = "ALL") String state) {
         BookingState state1;
         try {
-           state1 = BookingState.valueOf(state);
+            state1 = BookingState.valueOf(state);
         } catch (IllegalArgumentException e) {
             throw new MessageFailedException(String.format("Unknown state: %s", state));
         }
@@ -45,7 +45,7 @@ public class BookingController {
 
     @GetMapping("/owner")
     public List<BookingDto> getBookingByUser(@RequestHeader(X_SHARER_USER_ID) int ownerId,
-                                          @RequestParam(defaultValue = "ALL") String state) {
+                                             @RequestParam(defaultValue = "ALL") String state) {
         BookingState state1;
         try {
             state1 = BookingState.valueOf(state);

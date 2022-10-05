@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     public List<User> getAll() {
         log.info("Получен список всех пользователей (getAll())");
-       return userRepository.findAll();
+        return userRepository.findAll();
     }
 
     public UserDto getById(int id) {
