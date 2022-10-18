@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.Status;
@@ -59,12 +60,12 @@ class BookingRepositoryTest {
 
     @Test
     void testFindAllByBookerId() {
-        List<Booking> res = bookingRepository.findAllByBookerId(booker.getId(), Pageable.unpaged());
+        Page<Booking> res = bookingRepository.findAllByBookerId(booker.getId(), Pageable.unpaged());
 
         assertNotNull(res);
-        assertEquals(3, res.size());
-        assertEquals(booking1.getId(), res.get(0).getId());
-        assertEquals(booking1.getBooker(), res.get(0).getBooker());
+        assertEquals(3, res.toList().size());
+        assertEquals(booking1.getId(), res.toList().get(0).getId());
+        assertEquals(booking1.getBooker(), res.toList().get(0).getBooker());
     }
 
     @Test

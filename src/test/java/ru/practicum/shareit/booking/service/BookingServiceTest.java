@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoIn;
@@ -211,7 +212,7 @@ class BookingServiceTest {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(booker));
         when(bookingRepository.findAllByBookerId(anyInt(), any(Pageable.class)))
-                .thenReturn(List.of(booking));
+                .thenReturn(new PageImpl<>(List.of(booking)));
 
         List<BookingDto> res = bookingService.getAllByBookerId(booker.getId(), "ALL", 0, 3);
 
@@ -224,7 +225,7 @@ class BookingServiceTest {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(booker));
         when(bookingRepository.findAllByBookerId(anyInt(), any(Pageable.class)))
-                .thenReturn(List.of());
+                .thenReturn(new PageImpl<>(List.of()));
 
         Exception ex = assertThrows(NotFoundException.class, () -> bookingService.getAllByBookerId(booker.getId(),
                 "ALL", 0, 3));
@@ -237,7 +238,7 @@ class BookingServiceTest {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(booker));
         when(bookingRepository.findAllByBookerId(anyInt(), any(Pageable.class)))
-                .thenReturn(List.of(booking));
+                .thenReturn(new PageImpl<>(List.of(booking)));
 
         List<BookingDto> res = bookingService.getAllByBookerId(booker.getId(), "REJECTED", 0, 3);
 
@@ -252,7 +253,7 @@ class BookingServiceTest {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(booker));
         when(bookingRepository.findAllByBookerId(anyInt(), any(Pageable.class)))
-                .thenReturn(List.of(lastBooking));
+                .thenReturn(new PageImpl<>(List.of(lastBooking)));
 
         List<BookingDto> res = bookingService.getAllByBookerId(booker.getId(), "PAST", 0, 3);
 
@@ -267,7 +268,7 @@ class BookingServiceTest {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(booker));
         when(bookingRepository.findAllByBookerId(anyInt(), any(Pageable.class)))
-                .thenReturn(List.of(nextBooking));
+                .thenReturn(new PageImpl<>(List.of(nextBooking)));
 
         List<BookingDto> res = bookingService.getAllByBookerId(booker.getId(), "FUTURE", 0, 3);
 
@@ -282,7 +283,7 @@ class BookingServiceTest {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(booker));
         when(bookingRepository.findAllByBookerId(anyInt(), any(Pageable.class)))
-                .thenReturn(List.of(currentBooking));
+                .thenReturn(new PageImpl<>(List.of(currentBooking)));
 
         List<BookingDto> res = bookingService.getAllByBookerId(booker.getId(), "CURRENT", 0, 3);
 
@@ -295,7 +296,7 @@ class BookingServiceTest {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(booker));
         when(bookingRepository.findAllByBookerId(anyInt(), any(Pageable.class)))
-                .thenReturn(List.of(booking));
+                .thenReturn(new PageImpl<>(List.of(booking)));
 
         assertThrows(MessageFailedException.class, () -> bookingService.getAllByBookerId(booker.getId(),
                 "ABC", 0, 2));
