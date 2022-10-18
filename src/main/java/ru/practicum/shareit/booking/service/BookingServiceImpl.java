@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -100,12 +101,12 @@ public class BookingServiceImpl implements BookingService {
         validState(state);
         userRepository.findById(bookerId)
                 .orElseThrow(() -> new NotFoundException(String.format("Пользователь с id = %s не найден", bookerId)));
-        Set<Booking> bookings = new HashSet<>(bookingRepository.findAllByBookerId(bookerId, pagination(from, size)));
+        Page<Booking> bookings = bookingRepository.findAllByBookerId(bookerId, pagination(from, size));
         if (bookings.isEmpty()) {
             throw new NotFoundException("Бронирований не найдено.");
         } else {
             log.info("Получены все бронирования пользователя с id = {} (getAllByBookerId())", bookerId);
-            return filterByState(bookings, BookingState.valueOf(state));
+            return filterByState(bookings.toSet(), BookingState.valueOf(state));
         }
     }
 
