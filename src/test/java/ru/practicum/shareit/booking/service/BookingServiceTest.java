@@ -71,6 +71,17 @@ class BookingServiceTest {
     }
 
     @Test
+    void getByIdNotFoundException() {
+        when(bookingRepository.findById(anyInt()))
+                .thenReturn(Optional.empty());
+        when(itemRepository.findById(anyInt()))
+                .thenReturn(Optional.of(item));
+
+        Exception ex = assertThrows(NotFoundException.class, () -> bookingService.getById(booking.getId(), owner.getId()));
+        assertEquals("Запрос с id = 1 не найден", ex.getMessage());
+    }
+
+    @Test
     void getByIdNotFound() {
         when(bookingRepository.findById(anyInt()))
                 .thenReturn(Optional.empty());
