@@ -178,6 +178,6 @@ public class BookingServiceImpl implements BookingService {
 
     private PageRequest pagination(int from, int size) {
         int page = from < size ? 0 : from / size;
-        return PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "start"));
+        return PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "start"));
     }
 }
