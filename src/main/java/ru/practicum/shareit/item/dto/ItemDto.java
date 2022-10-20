@@ -8,9 +8,6 @@ import ru.practicum.shareit.item.Create;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -22,4 +19,5 @@ public class ItemDto {
     private String description;
     @NotNull(groups = {Create.class})
     private Boolean available;
+    private Integer requestId;
 }

@@ -11,6 +11,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,9 +20,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         log.info("Получен список всех пользователей (getAll())");
-        return userRepository.findAll();
+        return userRepository.findAll().stream()
+                .map(UserMapper::toUser)
+                .collect(Collectors.toList());
     }
 
     public UserDto getById(int id) {
