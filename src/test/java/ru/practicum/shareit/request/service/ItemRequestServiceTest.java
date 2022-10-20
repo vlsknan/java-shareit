@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidateException;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestDtoOut;
@@ -70,17 +68,6 @@ class ItemRequestServiceTest {
     }
 
     @Test
-    void createValidateException() {
-        when(userRepository.findById(anyInt()))
-                .thenReturn(Optional.of(user));
-        when(itemRequestRepository.save(any()))
-                .thenReturn(itemRequest);
-        itemRequestDto.setDescription(null);
-
-        assertThrows(ValidateException.class, () -> itemRequestService.create(user.getId(), itemRequestDto));
-    }
-
-    @Test
     void createNotFoundException() {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.empty());
@@ -107,8 +94,8 @@ class ItemRequestServiceTest {
     void getAllOtherUser() {
         when(userRepository.findById(anyInt()))
                 .thenReturn(Optional.of(user));
-        when(itemRequestRepository.findAll(any(Pageable.class)))
-                .thenReturn(new PageImpl<>(List.of(itemRequest2)));
+        when(itemRequestRepository.findAllByRequesterIdNot(anyInt(), any(Pageable.class)))
+                .thenReturn(List.of(itemRequest2));
 
         List<ItemRequestDtoOut> res = itemRequestService.getAllOtherUser(user.getId(), 0, 2);
 

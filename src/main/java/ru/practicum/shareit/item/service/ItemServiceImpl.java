@@ -42,10 +42,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDtoInfo> getAll(int ownerId, int from, int size) {
-        PageRequest pageRequest = pagination(from, size);
         userRepository.findById(ownerId);
         log.info("Получены все вещи пользователя c id = {} (getAll())", ownerId);
-        return itemRepository.findAllByOwnerId(ownerId, pageRequest).stream()
+        return itemRepository.findAllByOwnerId(ownerId, pagination(from, size)).stream()
                 .map(i -> toItemDtoInfo(i, ownerId))
                 .collect(Collectors.toList());
     }

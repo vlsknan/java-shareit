@@ -3,9 +3,10 @@ package ru.practicum.shareit.request.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import ru.practicum.shareit.item.dto.ItemDto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class ItemRequestDtoOut {
     private int id;
-    @NonNull
+    @NotNull
+    @NotEmpty
     private String description;
     private LocalDateTime created;
     private List<ItemDto> items;

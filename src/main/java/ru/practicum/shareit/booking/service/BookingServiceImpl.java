@@ -41,7 +41,8 @@ public class BookingServiceImpl implements BookingService {
     public BookingDto getById(int bookingId, int ownerId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException(String.format("Запрос с id = %s не найден", bookingId)));
-        Item item = itemRepository.findById(booking.getItem().getId()).get();
+        Item item = itemRepository.findById(booking.getItem().getId())
+                .orElseThrow(() -> new NotFoundException(String.format("Вещь с id = %s не найдена", booking.getItem().getId())));
         if (booking.getBooker().getId() == ownerId || item.getOwnerId() == ownerId) {
             log.info("Найден запрос с id = {} (getById())", booking.getId());
             return BookingMapper.toBookingDto(booking);
@@ -58,7 +59,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new NotFoundException(String.format("Вещь с id = %s не найдена", bookingDtoIn.getItemId())));
         BookingDto bookingDto = BookingMapper.toBookingDto(bookingDtoIn, item);
         if (bookingDto.getEnd().isBefore(bookingDto.getStart())) {
-            throw new ValidateException(String.format("Дата окончания брони раньше даты начала"));
+            throw new ValidateException("Дата окончания брони раньше даты начала");
         }
         bookingDto.setItem(item);
         bookingDto.setBooker(booker);
@@ -177,6 +178,6 @@ public class BookingServiceImpl implements BookingService {
 
     private PageRequest pagination(int from, int size) {
         int page = from < size ? 0 : from / size;
-        return PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "start"));
+        return PageRequest.of(page, size, Sort.by( "start").descending());
     }
 }

@@ -18,8 +18,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     Page<Item> search(String text, Pageable page);
 
     @Query("select i from Item i " +
-            "where i.ownerId = ?1 " +
-            "order by i.id ")
+            "where i.ownerId = ?1 ")
     Page<Item> findAllByOwnerId(int ownerId, Pageable page);
 
     @Query(" select i from Item i " +
