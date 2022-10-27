@@ -3,7 +3,6 @@ services:
   gateway:
     build: gateway
     image: shareit-gateway
-    container_name:
     ports:
       - "8080:8080"
     depends_on:
@@ -14,7 +13,6 @@ services:
   server:
     build: server
     image: shareit-server
-    container_name:
     ports:
       - "9090:9090"
     depends_on:
@@ -27,7 +25,6 @@ services:
 
   db:
     image: postgres:13.7-alpine
-    container_name:
     ports:
       - "6541:5432"
     environment:
