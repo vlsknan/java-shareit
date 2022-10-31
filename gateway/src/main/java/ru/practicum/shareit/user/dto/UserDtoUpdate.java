@@ -1,15 +1,18 @@
 package ru.practicum.shareit.user.dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Email;
 
 @Data
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDtoUpdate {
-    private int id;
-    private String name;
+    int id;
+    String name;
     @Email
-    private String email;
+    String email;
 }

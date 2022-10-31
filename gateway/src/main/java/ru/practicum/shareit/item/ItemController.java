@@ -1,6 +1,8 @@
 package ru.practicum.shareit.item;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,9 +23,10 @@ import javax.validation.constraints.PositiveOrZero;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ItemController {
-    private final ItemClient itemClient;
-    private static final String X_SHARER_USER_ID = "X-Sharer-User-Id";
+    ItemClient itemClient;
+    static final String X_SHARER_USER_ID = "X-Sharer-User-Id";
 
     @GetMapping
     public ResponseEntity<Object> getAll(@RequestHeader(X_SHARER_USER_ID) int userId,
