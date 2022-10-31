@@ -1,6 +1,8 @@
 package ru.practicum.shareit.user;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,8 +17,9 @@ import javax.validation.constraints.NotNull;
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
 @Slf4j
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserController {
-    private final UserClient userClient;
+    UserClient userClient;
 
     @GetMapping
     public ResponseEntity<Object> getAll() {
